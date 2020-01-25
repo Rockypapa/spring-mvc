@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ajax</title>
+</head>
+<script type="text/javascript" src="/templates/static/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //异步交互
+        $("#uname").blur(function () {
+            //获取文本输入的值
+            const uname = $(this).val();
+            //发给服务器
+            //期望服务器响应回来的数据格式{"userExist":true,"msg":"用户名已被注册"}
+            //接收服务器返回的数据  /reg/data是访问路径 即localhost:8090/reg/data
+            $.get("/reg/data.do",{uname:uname},function (data) {
+                //json数据转为js对象
+                var res = JSON.parse(data);
+                const span = $("#uname_span");
+                //判断userExsist键值是否是true
+                //{"userExist":false,"msg":"用户名可以使用"}
+                if (res.userExist){
+                    //用户名存在，显示为红
+                    span.css("color","red");
+                    span.html("该账号已被使用");
+                }else {
+                    //用户名不存在显示绿
+                    span.css("color","green");
+                    span.html("该账号可以使用");
+                }
+            });
+        });
+    });
+
+</script>
+<body>
+    <div style="width: 800px;height: 300px">
+        <form >
+            <!--onblur 失去焦点产生事件-->
+            用户名:<input type="text" name="uname" id="uname" placeholder="请输入用户名"/>
+            <span id="uname_span"></span> <br/>
+            密码:<input type="password" name="pwd" id="pwd" placeholder="请输入密码"/><br/>
+            <input type="button" value="提交" id="button" /><br/>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.rocky.mall.config;
 
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -111,9 +112,14 @@ public class MvcConfig implements WebMvcConfigurer{
 
     }
 
+    /**
+     * 消息处理器，通过该方式配置 可以自动传输使用fastjson序列
+     * @param converters
+     */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-
+        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        converters.add(converter);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.rocky.mall.bean;
 
 
+import java.beans.Transient;
+
 /**
  * @author Rocky
  * 用户表
@@ -13,6 +15,15 @@ public class User {
     private String address;
     private Integer age;
 
+    private transient UserInfo uInfo;
+
+    public UserInfo getUserInfo() {
+        return uInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.uInfo = userInfo;
+    }
 
     public Integer getId() {
         return id;
